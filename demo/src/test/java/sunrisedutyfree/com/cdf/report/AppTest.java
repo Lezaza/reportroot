@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import sunrisedutyfree.com.cdf.report.demoentity.Test_Child;
 import sunrisedutyfree.com.cdf.report.demorepository.TestRepository;
 import sunrisedutyfree.com.cdf.report.demorepository.Test_ChildRepository;
+import sunrisedutyfree.com.cdf.report.demorepository.Test_Child_ChildRepository;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,6 +35,10 @@ public class AppTest
 
     @Autowired(required = false)
     Test_ChildRepository test_childRepository;
+
+    @Autowired(required = false)
+    Test_Child_ChildRepository test_child_childRepository;
+
 
     /**
      * Rigorous Test :-)
@@ -94,8 +99,54 @@ public class AppTest
         System.out.println(this.test_childRepository);
         System.out.println();
 
-        System.out.println("------------------fingTest_ChildById :" + this.test_childRepository.fingTest_ChildById(1));
+        // @Test Test_Child fingTest_ChildById(int id);
+        System.out.println("------------------findTest_ChildById :" + this.test_childRepository.fingTest_ChildById(1));
+
+        // @Test List<Test_Child> findAllTest_ChildrenByCondition(String condition);
+        System.out.println("----------------findAllTest_ChildrenByCondition :" + this.test_childRepository.findAllTest_ChildrenByCondition("value like '%'"));
+
+        // @Test int saveTest_Child(Test_Child test);
+        sunrisedutyfree.com.cdf.report.demoentity.Test_Child test =
+                new sunrisedutyfree.com.cdf.report.demoentity.Test_Child();
+        test.setValue("nnnnnnnnnnnnnnnnnnnn");
+        System.out.println("----------------saveTest_Child :" + this.test_childRepository.saveTest_Child(test) + " " + test.getId());
+
+        // @Test void saveTest_Children(List<Test_Child> testList);
+        List<sunrisedutyfree.com.cdf.report.demoentity.Test_Child> testList =
+                new ArrayList<>();
+        for (int i=0; i < 20; i++)
+        {
+            sunrisedutyfree.com.cdf.report.demoentity.Test_Child test1 =
+                    new sunrisedutyfree.com.cdf.report.demoentity.Test_Child();
+            test1.setValue(i + "");
+            testList.add(test1);
+        }
+
+        try{
+
+            this.test_childRepository.saveTest_Children(testList);
+            System.out.println("---------------saveTest_Children All Done: " + " " + testList.size());
+        }
+        catch (Exception ex){
+
+            System.out.println("----------------saveTest_Children " + "Error!!! Message: " + ex.getMessage());
+        }
 
     }
 
+
+    @Test
+    public  void test_Test_Child_Child()
+    {
+        System.out.println();
+        System.out.println(this.sqlSessionFactory);
+        System.out.println();
+        System.out.println(this.repository);
+        System.out.println();
+        SqlSession sqlSession = this.sqlSessionFactory.openSession();
+        this.test_childRepository = sqlSession.getMapper(Test_ChildRepository.class);
+        System.out.println(this.test_childRepository);
+        System.out.println();
+
+    }
 }
