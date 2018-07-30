@@ -89,6 +89,7 @@ public class AppTest
     @Test
     public void test_Test_Child()
     {
+        /*
         System.out.println();
         System.out.println(this.sqlSessionFactory);
         System.out.println();
@@ -97,6 +98,10 @@ public class AppTest
         SqlSession sqlSession = this.sqlSessionFactory.openSession();
         this.test_childRepository = sqlSession.getMapper(Test_ChildRepository.class);
         System.out.println(this.test_childRepository);
+        System.out.println();
+        */
+        
+        System.out.println();
         System.out.println();
 
         // @Test Test_Child fingTest_ChildById(int id);
