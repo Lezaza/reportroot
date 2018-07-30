@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface TestRepository {
 
-    Test fingTestById(int id);
+    Test findTestById(int id);
 
     List<Test> findAllTestsByCondition(String condition);
 

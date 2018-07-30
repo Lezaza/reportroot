@@ -7,8 +7,10 @@ public class Test_Child implements Serializable {
 
     private static final long serialVersionUID = 3301510926911824009L;
 
+    //not increment
     int id;
     int parent_id;
+    String value;
 
     public List<Test_Child_Child> getChildren() {
         return children;
@@ -44,6 +46,5 @@ public class Test_Child implements Serializable {
         this.value = value;
     }
 
-    String value;
 
 }

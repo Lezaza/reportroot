@@ -1,6 +1,11 @@
 package sunrisedutyfree.com.cdf.report.demoentity;
 
-public class Test_Global {
+import java.io.Serializable;
+
+public class Test_Global implements Serializable {
+    private static final long serialVersionUID = 7166116921671202086L;
+
+    //not increment
     int id;
     String value;
 

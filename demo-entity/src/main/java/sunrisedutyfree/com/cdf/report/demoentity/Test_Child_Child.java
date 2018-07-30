@@ -5,8 +5,11 @@ import java.io.Serializable;
 public class Test_Child_Child implements Serializable {
 
     private static final long serialVersionUID = 8059358245080741991L;
+
+    //not increment
     int id;
     int parent_id;
+    String value;
 
     public int getId() {
         return id;
@@ -32,6 +35,6 @@ public class Test_Child_Child implements Serializable {
         this.value = value;
     }
 
-    String value;
+
 
 }
