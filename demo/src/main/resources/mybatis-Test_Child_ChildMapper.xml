@@ -1,27 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="sunrisedutyfree.com.cdf.report.demorepository.Test_ChildRepository">
+<mapper namespace="sunrisedutyfree.com.cdf.report.demorepository.Test_Child_ChildRepository">
 
-    <select id="fingTest_ChildById" resultType="sunrisedutyfree.com.cdf.report.demoentity.Test_Child">
-        select * from test_child where id=#{arg0}
+    <select id="fingTest_Child_ChildById" resultType="sunrisedutyfree.com.cdf.report.demoentity.Test_Child_Child">
+        select * from test_child_child where id=#{arg0}
     </select>
 
-    <select id="findAllTest_ChildrenByCondition" resultType="sunrisedutyfree.com.cdf.report.demoentity.Test_Child">
-        select * from test_child where 1=1
+    <select id="findAllTest_Child_ChildrenByCondition" resultType="sunrisedutyfree.com.cdf.report.demoentity.Test_Child_Child">
+        select * from test_child_child where 1=1
         <if test="_parameter != null">
             and #{arg0}
         </if>
     </select>
 
-
-    <insert id="saveTest_Child" parameterType="sunrisedutyfree.com.cdf.report.demoentity.Test_Child" useGeneratedKeys="true" keyProperty="id">
+    <insert id="saveTest_Child_Child" parameterType="sunrisedutyfree.com.cdf.report.demoentity.Test_Child_Child" useGeneratedKeys="true" keyProperty="id">
         insert into test_child(value,id,parent_id) values(#{value},#{id},#{parent_id})
         <!--<selectKey>-->
         <!--select next value for MYCATSEQ_TEST-->
         <!--</selectKey>-->
     </insert>
 
-    <insert id="saveTest_Children" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+    <insert id="saveTest_Child_Children" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
         <!-- mycat 批量插入需要开启下面的注释内容 -->
         <!-- /*!mycat:catlet=io.mycat.route.sequence.BatchInsertSequence */ -->
         insert into test_child(value,id,parent_id) values
@@ -33,5 +32,6 @@
         <!--select last_insert_id() as id-->
         <!--</selectKey>-->
     </insert>
+
 
 </mapper>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="sunrisedutyfree.com.cdf.report.demorepository.TestRepository">
+
     <select id="findTestById" resultType="sunrisedutyfree.com.cdf.report.demoentity.Test">
         select * from test where id=#{arg0}
     </select>
@@ -8,9 +9,7 @@
     <select id="findAllTestsByCondition" resultType="sunrisedutyfree.com.cdf.report.demoentity.Test">
         select * from test where 1=1
         <if test="_parameter != null">
-            <where>
                and #{arg0}
-            </where>
         </if>
     </select>
 

@@ -17,6 +17,7 @@
     <mappers>
         <mapper resource="mybatis-TestMapper.xml"></mapper>
         <mapper resource="mybatis-Test_ChildMapper.xml"></mapper>
+        <mapper resource="mybatis-Test_Child_ChildMapper.xml"></mapper>
     </mappers>
 
 </configuration>
