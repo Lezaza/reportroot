@@ -16,6 +16,7 @@ import sunrisedutyfree.com.cdf.report.demoentity.Test_Global;
 import sunrisedutyfree.com.cdf.report.demorepository.TestRepository;
 import sunrisedutyfree.com.cdf.report.demorepository.Test_ChildRepository;
 import sunrisedutyfree.com.cdf.report.demorepository.Test_Child_ChildRepository;
+import sunrisedutyfree.com.cdf.report.demorepository.Test_GlobalRepository;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,6 +40,9 @@ public class AppTest
 
     @Autowired(required = false)
     Test_Child_ChildRepository test_child_childRepository;
+
+    @Autowired(required = false)
+    Test_GlobalRepository test_globalRepository;
 
 
     /**
@@ -195,12 +199,49 @@ public class AppTest
     @Test
     public  void test_Test_Global()
     {
+        System.out.println();
+        System.out.println("Session Factory === " + this.sqlSessionFactory);
+        System.out.println();
+        System.out.println("test_globalRepository session before === " + this.test_globalRepository);
+        System.out.println();
+        SqlSession sqlSession = this.sqlSessionFactory.openSession();
+        this.test_globalRepository = sqlSession.getMapper(Test_GlobalRepository.class);
+        System.out.println("test_globalRepository session after === " + this.test_globalRepository);
+        System.out.println();
+
         // @Test Test_Global fingTest_ChildById(int id);
+        System.out.println("------------------fingTest_ChildById :" + this.test_globalRepository.fingTest_ChildById(1));
 
         // @Test List<Test_Global> findAllTest_GlobalsByCondition(String condition);
+        System.out.println("----------------findAllTest_Child_ChildrenByCondition :" + this.test_globalRepository.findAllTest_GlobalsByCondition("value like '%'"));
 
         // @Test int saveTest_Global(Test_Global test);
+        sunrisedutyfree.com.cdf.report.demoentity.Test_Global test =
+                new sunrisedutyfree.com.cdf.report.demoentity.Test_Global();
+        test.setId(100); // 如需插入成功必须手动自增加+1
+        test.setValue("nnnnnnnnnnnnnnnnnnnn-Global");
+        System.out.println("----------------saveTest_Child :" + this.test_globalRepository.saveTest_Global(test) + " " + test.getId());
 
         // @Test void saveTest_Globals(List<Test_Global> testList);
+        List<sunrisedutyfree.com.cdf.report.demoentity.Test_Global> testList =
+                new ArrayList<>();
+        for (int i=0; i < 20; i++)
+        {
+            sunrisedutyfree.com.cdf.report.demoentity.Test_Global test1 =
+                    new sunrisedutyfree.com.cdf.report.demoentity.Test_Global();
+            test1.setValue(i + "-GLB");
+            test1.setId(1001 + i); // 自增需手动改
+            testList.add(test1);
+        }
+
+        try{
+
+            this.test_globalRepository.saveTest_Globals(testList);
+            System.out.println("---------------saveTest_Globals All Done: " + " " + testList.size());
+        }
+        catch (Exception ex){
+
+            System.out.println("----------------saveTest_Globals " + "Error!!! Message: " + ex.getMessage());
+        }
     }
 }
