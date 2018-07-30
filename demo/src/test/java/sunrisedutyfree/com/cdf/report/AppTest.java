@@ -36,8 +36,8 @@ public class AppTest
     @Autowired(required = false)
     Test_ChildRepository test_childRepository;
 
-    @Autowired(required = false)
-    Test_Child_ChildRepository test_child_childRepository;
+    // @Autowired(required = false)
+    // Test_Child_ChildRepository test_child_childRepository;
 
 
     /**
