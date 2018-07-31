@@ -6,17 +6,15 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import sunrisedutyfree.com.cdf.report.demoentity.Test_Child;
 import sunrisedutyfree.com.cdf.report.demorepository.TestRepository;
 import sunrisedutyfree.com.cdf.report.demorepository.Test_ChildRepository;
+import sunrisedutyfree.com.cdf.report.demorepository.jcpush.PURCHASE_ORDER_HEADERRepository;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -27,7 +25,12 @@ import java.util.List;
 public class AppTest 
 {
     @Autowired
-    SqlSessionFactory sqlSessionFactory;
+    @Qualifier("sqlSessionFactoryBean_MySQL")
+    SqlSessionFactory sqlSessionFactory_MySQL;
+
+    @Autowired
+    @Qualifier("sqlSessionFactoryBean_SQLServer_JCPUSH")
+    SqlSessionFactory sqlSessionFactory_SQLServer_JCPUSH;
 
     @Autowired(required = false)
     TestRepository repository;
@@ -42,11 +45,11 @@ public class AppTest
     public void test_Test()
     {
         System.out.println();
-        System.out.println(this.sqlSessionFactory);
+        System.out.println(this.sqlSessionFactory_MySQL);
         System.out.println();
         System.out.println(this.repository);
         System.out.println();
-        SqlSession sqlSession = this.sqlSessionFactory.openSession();
+        SqlSession sqlSession = this.sqlSessionFactory_MySQL.openSession();
         this.repository = sqlSession.getMapper(TestRepository.class);
         System.out.println(this.repository);
         System.out.println();
@@ -84,18 +87,25 @@ public class AppTest
     @Test
     public void test_Test_Child()
     {
-        System.out.println();
-        System.out.println(this.sqlSessionFactory);
-        System.out.println();
-        System.out.println(this.repository);
-        System.out.println();
-        SqlSession sqlSession = this.sqlSessionFactory.openSession();
+        SqlSession sqlSession = this.sqlSessionFactory_MySQL.openSession();
         this.test_childRepository = sqlSession.getMapper(Test_ChildRepository.class);
-        System.out.println(this.test_childRepository);
-        System.out.println();
 
         System.out.println("------------------fingTest_ChildById :" + this.test_childRepository.fingTest_ChildById(1));
 
+    }
+
+    @Test
+    public void test_SQLServer()
+    {
+        System.out.println(this.sqlSessionFactory_SQLServer_JCPUSH);
+
+        System.out.println(this.sqlSessionFactory_SQLServer_JCPUSH.openSession().getConnection());
+
+        System.out.println(
+                this.sqlSessionFactory_SQLServer_JCPUSH
+                        .openSession()
+                        .getMapper(PURCHASE_ORDER_HEADERRepository.class
+                ).count());
     }
 
 }

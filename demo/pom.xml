@@ -37,7 +37,6 @@
         <dependency>
             <groupId>sunrisedutyfree.com.cdf.report</groupId>
             <artifactId>demo-repository</artifactId>
-            <version>1.0-SNAPSHOT</version>
         </dependency>
         <!--******************************************************************-->
 
@@ -47,13 +46,11 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-dbcp2</artifactId>
-            <version>2.4.0</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.46</version>
         </dependency>
         <!--******************************************************************-->
 
@@ -63,13 +60,21 @@
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis</artifactId>
-            <version>3.4.6</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis-spring -->
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis-spring</artifactId>
-            <version>1.3.2</version>
+        </dependency>
+        <!--******************************************************************-->
+
+        <!--__________________________________________________________________-->
+        <!-- sqlserver -->
+        <!-- https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc -->
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <scope>test</scope>
         </dependency>
         <!--******************************************************************-->
 
@@ -101,6 +106,7 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
     <build>

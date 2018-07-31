@@ -15,8 +15,8 @@
     </typeAliases>
 
     <mappers>
-        <mapper resource="mybatis-TestMapper.xml"></mapper>
-        <mapper resource="mybatis-Test_ChildMapper.xml"></mapper>
+        <mapper resource="mybatis_TestMapper.xml"></mapper>
+        <mapper resource="mybatis_Test_ChildMapper.xml"></mapper>
     </mappers>
 
 </configuration>

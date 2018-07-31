@@ -34,7 +34,6 @@
         <dependency>
             <groupId>sunrisedutyfree.com.cdf.report</groupId>
             <artifactId>demo-entity</artifactId>
-            <version>${myself.version}</version>
         </dependency>
 
 

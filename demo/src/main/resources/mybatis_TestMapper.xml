@@ -8,9 +8,7 @@
     <select id="findAllTestsByCondition" resultType="sunrisedutyfree.com.cdf.report.demoentity.Test">
         select * from test where 1=1
         <if test="_parameter != null">
-            <where>
                and #{arg0}
-            </where>
         </if>
     </select>
 
@@ -23,7 +21,7 @@
 
     <insert id="saveTests" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
         <!-- mycat 批量插入需要开启下面的注释内容 -->
-        <!-- /*!mycat:catlet=io.mycat.route.sequence.BatchInsertSequence */ -->
+        /*!mycat:catlet=io.mycat.route.sequence.BatchInsertSequence */
         insert into test(value) values
         <foreach collection="list" item="test" separator=",">
             (#{test.value})

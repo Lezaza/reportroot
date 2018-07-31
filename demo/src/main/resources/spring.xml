@@ -7,32 +7,55 @@
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
             <list>
-                <value>classpath:properties/mycat.properties</value>
+                <value>classpath:properties/mysql.properties</value>
+                <value>classpath:properties/sqlserver_jcpush.properties</value>
             </list>
         </property>
     </bean>
 
-    <bean class="org.apache.commons.dbcp2.BasicDataSource" name="basicDataSource">
-        <property name="driverClassName" value="${driverclass}"></property>
-        <property name="url" value="${url}"></property>
-        <property name="username" value="${username}"></property>
-        <property name="password" value="${password}"></property>
-
-        <!--<property name="maxTotal" value="10"></property>-->
-        <!--<property name="initialSize" value="1"></property>-->
-    </bean>
-
-    <bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" value="#{basicDataSource}"></property>
-    </bean>
-
-    <!--mybatis-->
+    <!--mysql-->
     <beans>
-        <bean class="org.mybatis.spring.SqlSessionFactoryBean" name="sqlSessionFactoryBean">
-            <!--<property name="transactionFactory"></property>-->
-            <property name="dataSource" value="#{basicDataSource}"></property>
-            <property name="configLocation" value="classpath:mybatis-config-spring.xml"></property>
+        <bean class="org.apache.commons.dbcp2.BasicDataSource" name="basicDataSource_MySQL">
+            <property name="driverClassName" value="${jdbc.mysql.driverclass}"></property>
+            <property name="url" value="${jdbc.mysql.url}"></property>
+            <property name="username" value="${jdbc.mysql.username}"></property>
+            <property name="password" value="${jdbc.mysql.password}"></property>
         </bean>
+
+        <bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="transactionManager_MySQL">
+            <property name="dataSource" value="#{basicDataSource_MySQL}"></property>
+        </bean>
+
+        <!--mybatis-->
+        <beans>
+            <bean class="org.mybatis.spring.SqlSessionFactoryBean" name="sqlSessionFactoryBean_MySQL">
+                <!--<property name="transactionFactory"></property>-->
+                <property name="dataSource" value="#{basicDataSource_MySQL}"></property>
+                <property name="configLocation" value="classpath:mybatis_config_spring_mysql.xml"></property>
+            </bean>
+        </beans>
     </beans>
 
+    <!--sql server-->
+    <beans>
+        <bean class="org.apache.commons.dbcp2.BasicDataSource" name="basicDataSource_SQLServerL_JCPUSH">
+            <property name="driverClassName" value="${jdbc.sqlserver.driverclass}"></property>
+            <property name="url" value="${jdbc.sqlserver.url}"></property>
+            <property name="username" value="${jdbc.sqlserver.username}"></property>
+            <property name="password" value="${jdbc.sqlserver.password}"></property>
+        </bean>
+
+        <bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="transactionManager_SQLServer_JCPUSH">
+            <property name="dataSource" value="#{basicDataSource_SQLServerL_JCPUSH}"></property>
+        </bean>
+
+        <!--mybatis-->
+        <beans>
+            <bean class="org.mybatis.spring.SqlSessionFactoryBean" name="sqlSessionFactoryBean_SQLServer_JCPUSH">
+                <!--<property name="transactionFactory"></property>-->
+                <property name="dataSource" value="#{basicDataSource_SQLServerL_JCPUSH}"></property>
+                <property name="configLocation" value="classpath:mybatis_config_spring_sqlserver_jcpush.xml"></property>
+            </bean>
+        </beans>
+    </beans>
 </beans>
