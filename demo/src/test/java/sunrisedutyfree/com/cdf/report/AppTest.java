@@ -8,21 +8,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import sunrisedutyfree.com.cdf.report.demoentity.jcpush.POS_REAL_INV;
 import sunrisedutyfree.com.cdf.report.demorepository.TestRepository;
 import sunrisedutyfree.com.cdf.report.demorepository.Test_ChildRepository;
 import sunrisedutyfree.com.cdf.report.demorepository.Test_Child_ChildRepository;
 import sunrisedutyfree.com.cdf.report.demorepository.Test_GlobalRepository;
+import sunrisedutyfree.com.cdf.report.demorepository.jcpush.POS_REAL_INVRepository;
 import sunrisedutyfree.com.cdf.report.demorepository.jcpush.PURCHASE_ORDER_HEADERRepository;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.xml.crypto.Data;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring.xml"})
 /**
  * Unit test for simple App.
  */
-public class AppTest 
+public class AppTest
 {
     @Autowired
     @Qualifier("sqlSessionFactoryBean_MySQL")
@@ -250,6 +254,80 @@ public class AppTest
                         .openSession()
                         .getMapper(PURCHASE_ORDER_HEADERRepository.class
                         ).count());
+    }
+
+
+    @Test
+    public void test_SQLServer_New()
+    {
+        System.out.println(this.sqlSessionFactory_SQLServer_JCPUSH);
+
+        System.out.println(this.sqlSessionFactory_SQLServer_JCPUSH.openSession().getConnection());
+
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date dts = null;
+        Date dte = null;
+        try {
+            dts = dateFormat.parse("2018-07-30");
+            dts = dateFormat.parse(dateFormat.format(dts));
+            dte = new Date();
+            dte = dateFormat.parse(dateFormat.format(dte));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println();
+
+        Calendar calendar = Calendar.getInstance();
+        Calendar calendarE = Calendar.getInstance();
+        calendar.setTime(dts);
+
+        while (!dts.equals(dte))
+        {
+
+            System.out.println("----------------------------------------:" + dts);
+
+            calendarE.setTime(dts);
+            calendarE.add(Calendar.DATE, 1);
+
+            try {
+                List<POS_REAL_INV> pos_real_invList = this.sqlSessionFactory_SQLServer_JCPUSH
+                        .openSession()
+                        .getMapper(POS_REAL_INVRepository.class
+                        ).findPOS_REAL_INVsByXSDATEBetween(dts, calendarE.getTime());
+
+
+                List<POS_REAL_INV> list = new ArrayList<>();
+                for (int i=0; i < pos_real_invList.size(); i++)
+                {
+                    list.add(pos_real_invList.get(i));
+                    if(list.size() == 1) {
+                        this.sqlSessionFactory_MySQL
+                                .openSession()
+                                .getMapper(POS_REAL_INVRepository.class)
+                                .savePOS_REAL_INVs(list);
+                        list.clear();
+                        list = new ArrayList<>();
+                    }
+                }
+                if(list.size() != 0)
+                {
+                    this.sqlSessionFactory_MySQL
+                            .openSession()
+                            .getMapper(POS_REAL_INVRepository.class)
+                            .savePOS_REAL_INVs(list);
+                    list.clear();
+                    list = new ArrayList<>();
+                }
+
+                calendar.add(Calendar.DATE, 1);
+                dts = calendar.getTime();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }

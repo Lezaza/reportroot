@@ -19,6 +19,7 @@
         <mapper resource="mybatis_Test_ChildMapper.xml"></mapper>
         <mapper resource="mybatis_Test_Child_ChildMapper.xml"></mapper>
         <mapper resource="mybatis_Test_GlobalMapper.xml"></mapper>
+        <mapper resource="mybatis_POS_REAL_INVMapper.xml"></mapper>
     </mappers>
 
 </configuration>

@@ -13,6 +13,7 @@
 
     <mappers>
         <mapper resource="mybatis_PURCHASE_ORDER_HEADERMapper.xml"></mapper>
+        <mapper resource="mybatis_POS_REAL_INVMapper.xml"></mapper>
     </mappers>
 
 </configuration>
