@@ -3,9 +3,12 @@
 <mapper namespace="sunrisedutyfree.com.cdf.report.demorepository.jcpush.POS_REAL_INVRepository">
 
     <select id="count" resultType="java.lang.Integer">
-        select count(*) from POS_REAL_INV
+        select count(id) from POS_REAL_INV;
     </select>
 
+    <select id="getIncrementID" resultType="java.lang.Integer">
+        select next value for MYCATSEQ_POS_REAL_INV;
+    </select>
 
     <select id="findPOS_REAL_INVsByXSDATEBetween" resultType="sunrisedutyfree.com.cdf.report.demoentity.jcpush.POS_REAL_INV">
         select * from POS_REAL_INV where xsdate <![CDATA[>=]]> #{arg0} and xsdate <![CDATA[<]]> #{arg1}
@@ -13,11 +16,12 @@
 
     <insert id="savePOS_REAL_INVs" parameterType="java.util.List">
         <!-- mycat 批量插入需要开启下面的注释内容 -->
-        /*!mycat:catlet=io.mycat.route.sequence.BatchInsertSequence */
-        INSERT INTO POS_REAL_INV(ID,XSDANJUHAO,OLDDANJUHAO,SEQNO,XSDATE,POSNUMBER,RUNDATE,RCLASS,SYUSER,XSSUM,SELLSUM,YSJE,DPYOUHUI,CXXSSUM,CXSELLSUM,CXYSJE,YSJE1,SSJE,ZLJE,RLJE,RLCUURRID,RLCURRRATE,SHULIANG,BASECURRID,FLAG,YYYUSER,HYJKXUHAO,HYYKXUHAO,JFKXUHAO,GBKXUHAO,KECENG,TRANSFERNO,STORENO,OPFLAG)
+        <!-- /*!mycat:catlet=io.mycat.route.sequence.BatchInsertSequence */ -->
+        INSERT INTO POS_REAL_INV
+        (ID,XSDANJUHAO,OLDDANJUHAO,SEQNO,XSDATE,POSNUMBER,RUNDATE,RCLASS,SYUSER,XSSUM,SELLSUM,YSJE,DPYOUHUI,CXXSSUM,CXSELLSUM,CXYSJE,YSJE1,SSJE,ZLJE,RLJE,RLCUURRID,RLCURRRATE,SHULIANG,BASECURRID,FLAG,YYYUSER,HYJKXUHAO,HYYKXUHAO,JFKXUHAO,GBKXUHAO,KECENG,TRANSFERNO,STORENO,OPFLAG)
         VALUES
         <foreach collection="list" item="POS_REAL_INV" separator=",">
-            (#{POS_REAL_INV.ID},#{POS_REAL_INV.XSDANJUHAO},#{POS_REAL_INV.OLDDANJUHAO},#{POS_REAL_INV.SEQNO},#{POS_REAL_INV.XSDATE},#{POS_REAL_INV.POSNUMBER},#{POS_REAL_INV.RUNDATE},
+            (#{POS_REAL_INV.ID}, #{POS_REAL_INV.XSDANJUHAO}, #{POS_REAL_INV.OLDDANJUHAO},#{POS_REAL_INV.SEQNO},#{POS_REAL_INV.XSDATE},#{POS_REAL_INV.POSNUMBER},#{POS_REAL_INV.RUNDATE},
             #{POS_REAL_INV.RCLASS},#{POS_REAL_INV.SYUSER},#{POS_REAL_INV.XSSUM},#{POS_REAL_INV.SELLSUM},#{POS_REAL_INV.YSJE},#{POS_REAL_INV.DPYOUHUI},#{POS_REAL_INV.CXXSSUM},
             #{POS_REAL_INV.CXSELLSUM},#{POS_REAL_INV.CXYSJE},#{POS_REAL_INV.YSJE1},#{POS_REAL_INV.SSJE},#{POS_REAL_INV.ZLJE},#{POS_REAL_INV.RLJE},#{POS_REAL_INV.RLCUURRID},
             #{POS_REAL_INV.RLCURRRATE},#{POS_REAL_INV.SHULIANG},#{POS_REAL_INV.BASECURRID},#{POS_REAL_INV.FLAG},#{POS_REAL_INV.YYYUSER},#{POS_REAL_INV.HYJKXUHAO},

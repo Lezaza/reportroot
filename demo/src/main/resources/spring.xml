@@ -20,6 +20,12 @@
             <property name="url" value="${jdbc.mysql.url}"></property>
             <property name="username" value="${jdbc.mysql.username}"></property>
             <property name="password" value="${jdbc.mysql.password}"></property>
+
+            <!--<property name="defaultAutoCommit" value="true"></property>-->
+            <!--<property name="enableAutoCommitOnReturn" value="true"></property>-->
+
+            <property name="maxTotal" value="15"></property>
+            <property name="maxIdle" value="10"></property>
         </bean>
 
         <bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="transactionManager_MySQL">
@@ -43,6 +49,12 @@
             <property name="url" value="${jdbc.sqlserver.url}"></property>
             <property name="username" value="${jdbc.sqlserver.username}"></property>
             <property name="password" value="${jdbc.sqlserver.password}"></property>
+
+            <!--<property name="defaultAutoCommit" value="true"></property>-->
+            <!--<property name="enableAutoCommitOnReturn" value="true"></property>-->
+
+            <property name="maxTotal" value="15"></property>
+            <property name="maxIdle" value="10"></property>
         </bean>
 
         <bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="transactionManager_SQLServer_JCPUSH">
@@ -52,6 +64,7 @@
         <!--mybatis-->
         <beans>
             <bean class="org.mybatis.spring.SqlSessionFactoryBean" name="sqlSessionFactoryBean_SQLServer_JCPUSH">
+
                 <!--<property name="transactionFactory"></property>-->
                 <property name="dataSource" value="#{basicDataSource_SQLServerL_JCPUSH}"></property>
                 <property name="configLocation" value="classpath:mybatis_config_spring_sqlserver_jcpush.xml"></property>

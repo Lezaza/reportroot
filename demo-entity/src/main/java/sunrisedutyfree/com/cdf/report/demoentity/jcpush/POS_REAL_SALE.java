@@ -22,6 +22,45 @@ public class POS_REAL_SALE {
 
     String SHANGPINMING;
 
+    @Override
+    public String toString() {
+        return "POS_REAL_SALE{" +
+                "XSDANJUHAO='" + XSDANJUHAO + '\'' +
+                ", SEQNO=" + SEQNO +
+                ", SHANGPINHAO='" + SHANGPINHAO + '\'' +
+                ", OLDSHANGPINHAO='" + OLDSHANGPINHAO + '\'' +
+                ", GUIHAO='" + GUIHAO + '\'' +
+                ", FENLEIHAO='" + FENLEIHAO + '\'' +
+                ", BRAND='" + BRAND + '\'' +
+                ", SHANGPINMING='" + SHANGPINMING + '\'' +
+                ", DANWEIXUHAO='" + DANWEIXUHAO + '\'' +
+                ", DANWEI='" + DANWEI + '\'' +
+                ", GUIGE='" + GUIGE + '\'' +
+                ", CHANDI='" + CHANDI + '\'' +
+                ", DANJIA=" + DANJIA +
+                ", TYPEFLAG=" + TYPEFLAG +
+                ", TMFLAG=" + TMFLAG +
+                ", PRCFLAG=" + PRCFLAG +
+                ", CXGROUP=" + CXGROUP +
+                ", SHUILV=" + SHUILV +
+                ", TAXNO='" + TAXNO + '\'' +
+                ", PVD='" + PVD + '\'' +
+                ", RSVSTATS='" + RSVSTATS + '\'' +
+                ", NUM=" + NUM +
+                ", RETURNNUM=" + RETURNNUM +
+                ", SELLPRC=" + SELLPRC +
+                ", AMOUNT=" + AMOUNT +
+                ", ZKLV=" + ZKLV +
+                ", YOUHUIFLAG=" + YOUHUIFLAG +
+                ", FLAG=" + FLAG +
+                ", TIAOMA='" + TIAOMA + '\'' +
+                ", AMOUNT1=" + AMOUNT1 +
+                ", DPYOUHUI=" + DPYOUHUI +
+                ", DPCXXUHAO='" + DPCXXUHAO + '\'' +
+                ", ZDCXXUHAO='" + ZDCXXUHAO + '\'' +
+                '}';
+    }
+
     String DANWEIXUHAO;
 
     String DANWEI;

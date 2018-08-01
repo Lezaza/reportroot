@@ -11,6 +11,8 @@ public interface POS_REAL_INVRepository {
 
     List<POS_REAL_INV> findPOS_REAL_INVsByXSDATEBetween(Date s, Date e);
 
-    void savePOS_REAL_INVs(List<POS_REAL_INV> list);
+    int savePOS_REAL_INVs(List<POS_REAL_INV> list);
+
+    int getIncrementID();
 }
 

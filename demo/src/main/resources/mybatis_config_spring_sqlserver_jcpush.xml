@@ -8,12 +8,13 @@
     </settings>
 
     <typeAliases>
-
+        <typeAlias type="sunrisedutyfree.com.cdf.report.demoentity.jcpush.POS_REAL_INV" alias="POS_REAL_INV"/>
     </typeAliases>
 
     <mappers>
         <mapper resource="mybatis_PURCHASE_ORDER_HEADERMapper.xml"></mapper>
         <mapper resource="mybatis_POS_REAL_INVMapper.xml"></mapper>
+        <mapper resource="mybatis_POS_REAL_SALEMapper.xml"></mapper>
     </mappers>
 
 </configuration>

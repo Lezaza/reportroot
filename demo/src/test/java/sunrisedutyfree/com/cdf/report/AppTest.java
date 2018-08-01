@@ -1,5 +1,6 @@
 package sunrisedutyfree.com.cdf.report;
 
+import javafx.geometry.Pos;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.junit.Test;
@@ -9,11 +10,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import sunrisedutyfree.com.cdf.report.demoentity.jcpush.POS_REAL_INV;
+import sunrisedutyfree.com.cdf.report.demoentity.jcpush.POS_REAL_SALE;
 import sunrisedutyfree.com.cdf.report.demorepository.TestRepository;
 import sunrisedutyfree.com.cdf.report.demorepository.Test_ChildRepository;
 import sunrisedutyfree.com.cdf.report.demorepository.Test_Child_ChildRepository;
 import sunrisedutyfree.com.cdf.report.demorepository.Test_GlobalRepository;
 import sunrisedutyfree.com.cdf.report.demorepository.jcpush.POS_REAL_INVRepository;
+import sunrisedutyfree.com.cdf.report.demorepository.jcpush.POS_REAL_SALERepository;
 import sunrisedutyfree.com.cdf.report.demorepository.jcpush.PURCHASE_ORDER_HEADERRepository;
 
 import javax.xml.crypto.Data;
@@ -269,7 +272,7 @@ public class AppTest
         Date dts = null;
         Date dte = null;
         try {
-            dts = dateFormat.parse("2018-07-30");
+            dts = dateFormat.parse("2017-01-01");
             dts = dateFormat.parse(dateFormat.format(dts));
             dte = new Date();
             dte = dateFormat.parse(dateFormat.format(dte));
@@ -283,6 +286,13 @@ public class AppTest
         Calendar calendarE = Calendar.getInstance();
         calendar.setTime(dts);
 
+        SqlSession sqlSession_MySQL = this.sqlSessionFactory_MySQL.openSession();
+        POS_REAL_INVRepository pos_real_invRepository_MySQL = sqlSession_MySQL.getMapper(POS_REAL_INVRepository.class);
+        POS_REAL_SALERepository pos_real_saleRepository_MySQL = sqlSession_MySQL.getMapper(POS_REAL_SALERepository.class);
+        SqlSession sqlSession_SQLServer_JCPUSH = this.sqlSessionFactory_SQLServer_JCPUSH.openSession();
+        POS_REAL_INVRepository pos_real_invRepository__SQLServer_JCPUSH = sqlSession_SQLServer_JCPUSH.getMapper(POS_REAL_INVRepository.class);
+        POS_REAL_SALERepository pos_real_saleRepository__SQLServer_JCPUSH = sqlSession_SQLServer_JCPUSH.getMapper(POS_REAL_SALERepository.class);
+
         while (!dts.equals(dte))
         {
 
@@ -292,33 +302,40 @@ public class AppTest
             calendarE.add(Calendar.DATE, 1);
 
             try {
-                List<POS_REAL_INV> pos_real_invList = this.sqlSessionFactory_SQLServer_JCPUSH
-                        .openSession()
-                        .getMapper(POS_REAL_INVRepository.class
-                        ).findPOS_REAL_INVsByXSDATEBetween(dts, calendarE.getTime());
 
+                List<POS_REAL_INV> pos_real_invList =
+                        pos_real_invRepository__SQLServer_JCPUSH.findPOS_REAL_INVsByXSDATEBetween(dts, calendarE.getTime());
 
                 List<POS_REAL_INV> list = new ArrayList<>();
                 for (int i=0; i < pos_real_invList.size(); i++)
                 {
+                    int inrementID = pos_real_invRepository_MySQL.getIncrementID();
+                    // sqlSession_MySQL.commit();
+                   System.out.println("Conn ========== out :"+sqlSession_MySQL.getConnection().hashCode());
+
+                    pos_real_invList.get(i).setID(inrementID);
+
                     list.add(pos_real_invList.get(i));
-                    if(list.size() == 1) {
-                        this.sqlSessionFactory_MySQL
-                                .openSession()
-                                .getMapper(POS_REAL_INVRepository.class)
-                                .savePOS_REAL_INVs(list);
+
+                    if(list.size() == 50 || i == pos_real_invList.size() - 1) {
+
+                        pos_real_invRepository_MySQL.savePOS_REAL_INVs(list);
+
+                        for(POS_REAL_INV pos_real_inv : list)
+                        {
+                            List<POS_REAL_SALE> pos_real_salesList =
+                                    pos_real_saleRepository__SQLServer_JCPUSH.findPOS_REAL_SALEsByXSDANJUHAO(pos_real_inv.getXSDANJUHAO());
+
+                            for (int j=0; j < pos_real_salesList.size(); j++) {
+
+                                pos_real_saleRepository_MySQL.savePOS_REAL_SALEs(pos_real_salesList.subList(j, j + 1));
+
+                            }
+                        }
+
                         list.clear();
                         list = new ArrayList<>();
                     }
-                }
-                if(list.size() != 0)
-                {
-                    this.sqlSessionFactory_MySQL
-                            .openSession()
-                            .getMapper(POS_REAL_INVRepository.class)
-                            .savePOS_REAL_INVs(list);
-                    list.clear();
-                    list = new ArrayList<>();
                 }
 
                 calendar.add(Calendar.DATE, 1);
@@ -328,6 +345,37 @@ public class AppTest
                 e.printStackTrace();
             }
         }
+
+        sqlSession_MySQL.close();
+        sqlSession_SQLServer_JCPUSH.close();
+    }
+
+    @Test
+    public void testdddddddddddddddd()
+    {
+
+        SqlSession sqlSession_MySQL = this.sqlSessionFactory_MySQL.openSession();
+        POS_REAL_INVRepository pos_real_invRepository_MySQL = sqlSession_MySQL.getMapper(POS_REAL_INVRepository.class);
+        POS_REAL_SALERepository pos_real_saleRepository_MySQL = sqlSession_MySQL.getMapper(POS_REAL_SALERepository.class);
+
+        SqlSession sqlSession_SQLServer_JCPUSH = this.sqlSessionFactory_SQLServer_JCPUSH.openSession();
+        POS_REAL_INVRepository pos_real_invRepository__SQLServer_JCPUSH = sqlSession_SQLServer_JCPUSH.getMapper(POS_REAL_INVRepository.class);
+        POS_REAL_SALERepository pos_real_saleRepository__SQLServer_JCPUSH = sqlSession_SQLServer_JCPUSH.getMapper(POS_REAL_SALERepository.class);
+
+        String xsdjh="2701807300044";
+        List<POS_REAL_SALE> pos_real_salesList = pos_real_saleRepository__SQLServer_JCPUSH.findPOS_REAL_SALEsByXSDANJUHAO(xsdjh);
+
+        System.out.println(pos_real_salesList);
+
+        System.out.println(pos_real_saleRepository_MySQL.savePOS_REAL_SALEs(pos_real_salesList));
+
+
+//        // Pareant ID
+//        for(int j=0; j < pos_real_salesList.size() ; j ++)
+//        {
+//            pos_real_invList.get(i).setID(inrementID);
+//        }
+
     }
 
 }

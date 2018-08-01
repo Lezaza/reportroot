@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sunrisedutyfree.com.cdf.report.demorepository.jcpush.POS_REAL_SALERepository">
+
+    <select id="count" resultType="java.lang.Integer">
+        select count(id) from POS_REAL_SALE;
+    </select>
+
+    <select id="getIncrementID" resultType="java.lang.Integer">
+        select next value for MYCATSEQ_POS_REAL_SALE;
+    </select>
+
+    <select id="findPOS_REAL_SALEsByXSDANJUHAO" resultType="sunrisedutyfree.com.cdf.report.demoentity.jcpush.POS_REAL_SALE">
+        select * from POS_REAL_SALE where XSDANJUHAO = #{arg0};
+    </select>
+
+    <insert id="savePOS_REAL_SALEs" parameterType="java.util.List">
+        <!-- mycat 批量插入需要开启下面的注释内容 -->
+        <!-- /*!mycat:catlet=io.mycat.route.sequence.BatchInsertSequence */ -->
+        INSERT INTO POS_REAL_SALE
+        (XSDANJUHAO
+        ,SEQNO
+        ,SHANGPINHAO
+        ,OLDSHANGPINHAO
+        ,GUIHAO
+        ,FENLEIHAO
+        ,BRAND
+        ,SHANGPINMING
+        ,DANWEIXUHAO
+        ,DANWEI
+        ,GUIGE
+        ,CHANDI
+        ,DANJIA
+        ,TYPEFLAG
+        ,TMFLAG
+        ,PRCFLAG
+        ,CXGROUP
+        ,SHUILV
+        ,TAXNO
+        ,PVD
+        ,RSVSTATS
+        ,NUM
+        ,RETURNNUM
+        ,SELLPRC
+        ,AMOUNT
+        ,ZKLV
+        ,YOUHUIFLAG
+        ,FLAG
+        ,TIAOMA
+        ,AMOUNT1
+        ,DPYOUHUI
+        ,DPCXXUHAO
+        ,ZDCXXUHAO)
+
+        VALUES
+
+        <foreach collection="list" item="POS_REAL_SALE" separator=",">
+        (#{POS_REAL_SALE.XSDANJUHAO}
+        ,#{POS_REAL_SALE.SEQNO}
+        ,#{POS_REAL_SALE.SHANGPINHAO}
+        ,#{POS_REAL_SALE.OLDSHANGPINHAO}
+        ,#{POS_REAL_SALE.GUIHAO}
+        ,#{POS_REAL_SALE.FENLEIHAO}
+        ,#{POS_REAL_SALE.BRAND}
+        ,#{POS_REAL_SALE.SHANGPINMING}
+        ,#{POS_REAL_SALE.DANWEIXUHAO}
+        ,#{POS_REAL_SALE.DANWEI}
+        ,#{POS_REAL_SALE.GUIGE}
+        ,#{POS_REAL_SALE.CHANDI}
+        ,#{POS_REAL_SALE.DANJIA}
+        ,#{POS_REAL_SALE.TYPEFLAG}
+        ,#{POS_REAL_SALE.TMFLAG}
+        ,#{POS_REAL_SALE.PRCFLAG}
+        ,#{POS_REAL_SALE.CXGROUP}
+        ,#{POS_REAL_SALE.SHUILV}
+        ,#{POS_REAL_SALE.TAXNO}
+        ,#{POS_REAL_SALE.PVD}
+        ,#{POS_REAL_SALE.RSVSTATS}
+        ,#{POS_REAL_SALE.NUM}
+        ,#{POS_REAL_SALE.RETURNNUM}
+        ,#{POS_REAL_SALE.SELLPRC}
+        ,#{POS_REAL_SALE.AMOUNT}
+        ,#{POS_REAL_SALE.ZKLV}
+        ,#{POS_REAL_SALE.YOUHUIFLAG}
+        ,#{POS_REAL_SALE.FLAG}
+        ,#{POS_REAL_SALE.TIAOMA}
+        ,#{POS_REAL_SALE.AMOUNT1}
+        ,#{POS_REAL_SALE.DPYOUHUI}
+        ,#{POS_REAL_SALE.DPCXXUHAO}
+        ,#{POS_REAL_SALE.ZDCXXUHAO})
+        </foreach>
+    </insert>
+
+</mapper>
