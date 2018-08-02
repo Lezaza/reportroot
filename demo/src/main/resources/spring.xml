@@ -24,12 +24,16 @@
             <!--<property name="defaultAutoCommit" value="true"></property>-->
             <!--<property name="enableAutoCommitOnReturn" value="true"></property>-->
 
+            <property name="defaultAutoCommit" value="true"></property>
+            <property name="maxWaitMillis" value="10000"></property>
+
             <property name="maxTotal" value="15"></property>
             <property name="maxIdle" value="10"></property>
         </bean>
 
         <bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="transactionManager_MySQL">
             <property name="dataSource" value="#{basicDataSource_MySQL}"></property>
+            <!--<property name="nestedTransactionAllowed" value="true"></property>-->
         </bean>
 
         <!--mybatis-->

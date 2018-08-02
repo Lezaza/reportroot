@@ -6,7 +6,7 @@
         select count(id) from POS_REAL_SALE;
     </select>
 
-    <select id="getIncrementID" resultType="java.lang.Integer">
+    <select id="getIncrementID" resultType="java.lang.Integer" flushCache="true">
         select next value for MYCATSEQ_POS_REAL_SALE;
     </select>
 

@@ -1,6 +1,7 @@
 package sunrisedutyfree.com.cdf.report;
 
 import javafx.geometry.Pos;
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.junit.Test;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 import sunrisedutyfree.com.cdf.report.demoentity.jcpush.POS_REAL_INV;
 import sunrisedutyfree.com.cdf.report.demoentity.jcpush.POS_REAL_SALE;
 import sunrisedutyfree.com.cdf.report.demorepository.TestRepository;
@@ -20,6 +22,7 @@ import sunrisedutyfree.com.cdf.report.demorepository.jcpush.POS_REAL_SALEReposit
 import sunrisedutyfree.com.cdf.report.demorepository.jcpush.PURCHASE_ORDER_HEADERRepository;
 
 import javax.xml.crypto.Data;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -38,6 +41,14 @@ public class AppTest
     @Autowired
     @Qualifier("sqlSessionFactoryBean_SQLServer_JCPUSH")
     SqlSessionFactory sqlSessionFactory_SQLServer_JCPUSH;
+
+    @Autowired
+    @Qualifier("basicDataSource_MySQL")
+    BasicDataSource basicDataSource_mysql;
+
+    @Autowired
+    @Qualifier("basicDataSource_SQLServerL_JCPUSH")
+    BasicDataSource basicDataSource_SQLServerL_JCPUSH;
 
     @Autowired(required = false)
     TestRepository repository;
@@ -289,29 +300,54 @@ public class AppTest
         SqlSession sqlSession_MySQL = this.sqlSessionFactory_MySQL.openSession();
         POS_REAL_INVRepository pos_real_invRepository_MySQL = sqlSession_MySQL.getMapper(POS_REAL_INVRepository.class);
         POS_REAL_SALERepository pos_real_saleRepository_MySQL = sqlSession_MySQL.getMapper(POS_REAL_SALERepository.class);
+
         SqlSession sqlSession_SQLServer_JCPUSH = this.sqlSessionFactory_SQLServer_JCPUSH.openSession();
         POS_REAL_INVRepository pos_real_invRepository__SQLServer_JCPUSH = sqlSession_SQLServer_JCPUSH.getMapper(POS_REAL_INVRepository.class);
         POS_REAL_SALERepository pos_real_saleRepository__SQLServer_JCPUSH = sqlSession_SQLServer_JCPUSH.getMapper(POS_REAL_SALERepository.class);
 
+        SqlSession sqlSession_MySQLforID = this.sqlSessionFactory_MySQL.openSession();
+        POS_REAL_INVRepository pos_real_invRepository_MySQLforID = sqlSession_MySQL.getMapper(POS_REAL_INVRepository.class);
+
         while (!dts.equals(dte))
         {
 
-            System.out.println("----------------------------------------:" + dts);
+            System.out.println("----------------------------------------:" + dts + " " + calendarE.getTime());
 
-            calendarE.setTime(dts);
-            calendarE.add(Calendar.DATE, 1);
+
 
             try {
+                calendarE.setTime(dts);
+                calendarE.add(Calendar.DATE, 1);
 
                 List<POS_REAL_INV> pos_real_invList =
                         pos_real_invRepository__SQLServer_JCPUSH.findPOS_REAL_INVsByXSDATEBetween(dts, calendarE.getTime());
 
+                calendar.add(Calendar.DATE, 1);
+                dts = calendar.getTime();
+                calendar.setTime(dts);
+
+                System.out.println(1
+                        + " " + this.basicDataSource_mysql.getMaxTotal()
+                        + " " + this.basicDataSource_mysql.getNumActive()
+                        + " " + this.basicDataSource_SQLServerL_JCPUSH.getMaxTotal()
+                        + " " + this.basicDataSource_SQLServerL_JCPUSH.getNumActive()
+                        + " " + sqlSession_MySQL.getConnection().getTransactionIsolation());
                 List<POS_REAL_INV> list = new ArrayList<>();
                 for (int i=0; i < pos_real_invList.size(); i++)
                 {
-                    int inrementID = pos_real_invRepository_MySQL.getIncrementID();
-                    // sqlSession_MySQL.commit();
-                   System.out.println("Conn ========== out :"+sqlSession_MySQL.getConnection().hashCode());
+                    int inrementID = pos_real_saleRepository_MySQL.getIncrementID();
+                    inrementID = pos_real_saleRepository_MySQL.getIncrementID();
+                    inrementID = pos_real_saleRepository_MySQL.getIncrementID();
+                    inrementID = pos_real_saleRepository_MySQL.getIncrementID();
+                    inrementID = pos_real_saleRepository_MySQL.getIncrementID();
+
+                    System.out.println(2
+                            + " " + inrementID
+                            + " " + this.basicDataSource_mysql.getMaxTotal()
+                            + " " + this.basicDataSource_mysql.getNumActive()
+                            + " " + this.basicDataSource_SQLServerL_JCPUSH.getMaxTotal()
+                            + " " + this.basicDataSource_SQLServerL_JCPUSH.getNumActive()
+                            + " " + sqlSession_MySQL.getConnection().getTransactionIsolation());
 
                     pos_real_invList.get(i).setID(inrementID);
 
@@ -320,16 +356,32 @@ public class AppTest
                     if(list.size() == 50 || i == pos_real_invList.size() - 1) {
 
                         pos_real_invRepository_MySQL.savePOS_REAL_INVs(list);
+                        System.out.println(3
+                                + " " + this.basicDataSource_mysql.getMaxTotal()
+                                + " " + this.basicDataSource_mysql.getNumActive()
+                                + " " + this.basicDataSource_SQLServerL_JCPUSH.getMaxTotal()
+                                + " " + this.basicDataSource_SQLServerL_JCPUSH.getNumActive()
+                                + " " + sqlSession_MySQL.getConnection().getTransactionIsolation());
 
                         for(POS_REAL_INV pos_real_inv : list)
                         {
                             List<POS_REAL_SALE> pos_real_salesList =
                                     pos_real_saleRepository__SQLServer_JCPUSH.findPOS_REAL_SALEsByXSDANJUHAO(pos_real_inv.getXSDANJUHAO());
+                            System.out.println(4
+                                    + " " + this.basicDataSource_mysql.getMaxTotal()
+                                    + " " + this.basicDataSource_mysql.getNumActive()
+                                    + " " + this.basicDataSource_SQLServerL_JCPUSH.getMaxTotal()
+                                    + " " + this.basicDataSource_SQLServerL_JCPUSH.getNumActive()
+                                    + " " + sqlSession_MySQL.getConnection().getTransactionIsolation());
 
                             for (int j=0; j < pos_real_salesList.size(); j++) {
-
                                 pos_real_saleRepository_MySQL.savePOS_REAL_SALEs(pos_real_salesList.subList(j, j + 1));
-
+                                System.out.println(5
+                                        + " " + this.basicDataSource_mysql.getMaxTotal()
+                                        + " " + this.basicDataSource_mysql.getNumActive()
+                                        + " " + this.basicDataSource_SQLServerL_JCPUSH.getMaxTotal()
+                                        + " " + this.basicDataSource_SQLServerL_JCPUSH.getNumActive()
+                                        + " " + sqlSession_MySQL.getConnection().getTransactionIsolation());
                             }
                         }
 
@@ -337,12 +389,31 @@ public class AppTest
                         list = new ArrayList<>();
                     }
                 }
-
-                calendar.add(Calendar.DATE, 1);
-                dts = calendar.getTime();
-
             } catch (Exception e) {
                 e.printStackTrace();
+
+                try {
+                    System.out.println(sqlSession_MySQL.getConnection().isClosed());
+                    System.out.println(sqlSession_MySQL.getConnection().isReadOnly());
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            }
+            finally {
+                try {
+                    sqlSession_MySQL.close();
+                }
+                catch (Exception ex)
+                {
+                    ex.printStackTrace();
+                }
+                sqlSession_MySQL = null;
+                pos_real_invRepository_MySQL = null;
+                pos_real_saleRepository_MySQL = null;
+
+                sqlSession_MySQL = this.sqlSessionFactory_MySQL.openSession();
+                pos_real_invRepository_MySQL = sqlSession_MySQL.getMapper(POS_REAL_INVRepository.class);
+                pos_real_saleRepository_MySQL = sqlSession_MySQL.getMapper(POS_REAL_SALERepository.class);
             }
         }
 
